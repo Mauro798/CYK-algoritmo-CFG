@@ -101,6 +101,8 @@ public class ContextFreeGrammar {
 				if(!p.esUnitaria()) {
 					for(ParUnitario par : paresUnitarios) {
 						if(par.getSegundoCaracter().equals(v.getNombre())) {
+							/* Una vez que se que tengo que agregar la produccion, reviso si la variable a la que pertenece ya existe. 
+							 * Si ya lo hace lo agrego a esta, si no, la creo*/
 							boolean esta = false;
 							for(Variable v2 : P1) {
 								if(v2.getNombre().equals(par.getPrimerCaracter())) {

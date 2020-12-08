@@ -45,11 +45,7 @@ public class Main {
 //		CFG.addVariable(A);
 //		CFG.addVariable(B);
 //		CFG.addVariable(C);
-//		CFG.addVariable(a);
-//		CFG.addVariable(b);
-//		CFG.addVariable(c);
-//		CFG.addVariable(d);
-//		
+		
 //		for(Variable v: CFG.getVariables()) {
 //			System.out.println(v.toString());
 //		}
