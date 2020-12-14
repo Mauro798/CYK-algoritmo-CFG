@@ -10,40 +10,51 @@ import org.junit.jupiter.api.Test;
 import cfg.*;
 
 class TestLimpiarGramatica {
+	ContextFreeGrammar g1;
+	Variable I;
+	Variable F;
+	Variable T;
+	Variable E;
+	Produccion I1;
+	Produccion I2;
+	Produccion I3;
+	Produccion I4;
+	Produccion I5;
+	Produccion I6;
+	Produccion F1;
+	Produccion F2;
+	Produccion T1;
+	Produccion T2;
+	Produccion E1;
+	Produccion E2;
 	
 	@BeforeEach
-	static void init() {
-		
-	}
-
-	@Test
-	void testParesUnitarios1() {
-		
+	void init() {
 		/* Gramatica de la forma:			
 		 * I -> a | b | Ia | Ib | I0 | I1
 		 * F -> I | (E)
 		 * T -> F | T*F
 		 * E -> T | E+T
 		 * */
-		ContextFreeGrammar G = new ContextFreeGrammar();
-		Variable I = new Variable(false, "I");
-		Variable F = new Variable(false, "F");
-		Variable T = new Variable(false, "T");
-		Variable E = new Variable(false, "E");
-		Produccion I1 = new Produccion();
+		g1 = new ContextFreeGrammar();
+		I = new Variable(false, "I");
+		F = new Variable(false, "F");
+		T = new Variable(false, "T");
+		E = new Variable(false, "E");
+		I1 = new Produccion();
 		I1.addValor(new Variable(true, "a"));
-		Produccion I2 = new Produccion();
+		I2 = new Produccion();
 		I2.addValor(new Variable(true, "b"));
-		Produccion I3 = new Produccion();
+		I3 = new Produccion();
 		I3.addValor(I);
 		I3.addValor(new Variable(true, "a"));
-		Produccion I4 = new Produccion();
+		I4 = new Produccion();
 		I4.addValor(I);
 		I4.addValor(new Variable(true, "b"));
-		Produccion I5 = new Produccion();
+		I5 = new Produccion();
 		I5.addValor(I);
 		I5.addValor(new Variable(true, "0"));
-		Produccion I6 = new Produccion();
+		I6 = new Produccion();
 		I6.addValor(I);
 		I6.addValor(new Variable(true, "1"));
 		I.addProduccion(I1);
@@ -52,36 +63,40 @@ class TestLimpiarGramatica {
 		I.addProduccion(I4);
 		I.addProduccion(I5);
 		I.addProduccion(I6);
-		Produccion F1 = new Produccion();
+		F1 = new Produccion();
 		F1.addValor(I);
-		Produccion F2 = new Produccion();
+		F2 = new Produccion();
 		F2.addValor(new Variable(true, "("));
 		F2.addValor(E);
 		F2.addValor(new Variable(true, ")"));
 		F.addProduccion(F1);
 		F.addProduccion(F2);
-		Produccion T1 = new Produccion();
+		T1 = new Produccion();
 		T1.addValor(F);
-		Produccion T2 = new Produccion();
+		T2 = new Produccion();
 		T2.addValor(T);
 		T2.addValor(new Variable(true, "*"));
 		T2.addValor(F);
 		T.addProduccion(T1);
 		T.addProduccion(T2);
-		Produccion E1 = new Produccion();
+		E1 = new Produccion();
 		E1.addValor(T);
-		Produccion E2 = new Produccion();
+		E2 = new Produccion();
 		E2.addValor(E);
 		E2.addValor(new Variable(true, "+"));
 		E2.addValor(T);
 		E.addProduccion(E1);
 		E.addProduccion(E2);
-		G.addVariable(I);
-		G.addVariable(F);
-		G.addVariable(T);
-		G.addVariable(E);
+		g1.addVariable(I);
+		g1.addVariable(F);
+		g1.addVariable(T);
+		g1.addVariable(E);
+	}
 
-		HashSet<ParUnitario> paresUnitarios = G.descubrirProduccionesunitarias();
+	@Test
+	void testParesUnitarios1() {
+
+		HashSet<ParUnitario> paresUnitarios = g1.descubrirProduccionesunitarias();
 		
 		assertTrue(paresUnitarios.contains(new ParUnitario("I","I")));
 		assertTrue(paresUnitarios.contains(new ParUnitario("F","F")));

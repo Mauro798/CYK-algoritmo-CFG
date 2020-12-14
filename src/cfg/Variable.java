@@ -47,7 +47,6 @@ public class Variable {
 		this.terminal = terminal;
 	}
 	
-
 	public ArrayList<Produccion> getProducciones() {
 		return producciones;
 	}

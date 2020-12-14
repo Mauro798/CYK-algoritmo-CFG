@@ -1,5 +1,7 @@
 package main;
 
+import java.util.ArrayList;
+
 import cfg.ContextFreeGrammar;
 import cfg.ParUnitario;
 import cfg.Produccion;
@@ -59,7 +61,11 @@ public class Main {
 		Variable F = new Variable(false, "F");
 		Variable T = new Variable(false, "T");
 		Variable E = new Variable(false, "E");
-		
+		Variable B = new Variable(false, "B");
+		Produccion B1= new Produccion();
+		B1.addValor(B);
+		B1.addValor(new Variable(true, "a"));
+		B.addProduccion(B1);
 		Produccion I1 = new Produccion();
 		I1.addValor(new Variable(true, "a"));
 		Produccion I2 = new Produccion();
@@ -100,9 +106,12 @@ public class Main {
 		T2.addValor(T);
 		T2.addValor(new Variable(true, "*"));
 		T2.addValor(F);
+		T2.addValor(F);
+		T2.addValor(E);
 		
 		T.addProduccion(T1);
 		T.addProduccion(T2);
+		
 		
 		Produccion E1 = new Produccion();
 		E1.addValor(T);
@@ -114,10 +123,11 @@ public class Main {
 		E.addProduccion(E1);
 		E.addProduccion(E2);
 		
-		G.addVariable(I);
-		G.addVariable(F);
 		G.addVariable(T);
+		G.addVariable(F);
+		G.addVariable(I);
 		G.addVariable(E);
+		G.addVariable(B);
 		
 //		ContextFreeGrammar G = new ContextFreeGrammar();
 //		Variable A = new Variable(false, "A");
@@ -145,6 +155,12 @@ public class Main {
 			System.out.println(v.toString());
 		}
 		
+		ArrayList<Variable> v3 = G.obtenerGeneradores();
+		
+		for(Variable v2 : v3) {
+			System.out.println("Variable Generadora: " + v2.getNombre());
+		} 
+		
 		for(ParUnitario p: G.descubrirProduccionesunitarias()) {
 			System.out.println("(" + p.getPrimerCaracter() + ", " + p.getSegundoCaracter() + " )");
 		}
@@ -155,6 +171,37 @@ public class Main {
 			System.out.println(v.toString());
 		}
 		
-
+		System.out.println("Sin No generadores:");
+		
+		G.eliminarSimbolosNoGeneradores();
+		
+		for(Variable v: G.getVariables()) {
+			System.out.println(v.toString());
+		}
+		
+		System.out.println("Sin no alcanzables");
+		
+		G.eliminarSimbolosNoAlcanzables();
+		
+		for(Variable v: G.getVariables()) {
+			System.out.println(v.toString());
+		}
+		
+		System.out.println("Limpiando terminales");
+		
+		G.paso2();
+		
+		for(Variable v: G.getVariables()) {
+			System.out.println(v.toString());
+		}
+		
+		System.out.println("Cortando mayores de 2");
+		
+		G.paso3();
+		
+		for(Variable v: G.getVariables()) {
+			System.out.println(v.toString());
+		}
+	
 	}
 }
